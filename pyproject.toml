@@ -1,0 +1,38 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "extratools-image"
+version = "0.1.0"
+description = ""
+authors = [{ name = "Chuancong Gao", email = "chuanconggao@users.noreply.github.com" }]
+requires-python = ">=3.11"
+readme = "README.md"
+license = "MIT"
+dependencies = [
+]
+
+[project.urls]
+Repository = "https://github.com/chuanconggao/extratools-image"
+
+[dependency-groups]
+dev = [
+    "pytest-cov>=4.1.0",
+    "mypy>=1.7.1",
+]
+
+[tool.coverage.run]
+source = [
+    "src",
+]
+
+[tool.mypy]
+ignore_missing_imports = true
+strict = true
+
+[tool.pytest.ini_options]
+addopts = "--cov --cov-report xml:cov.xml --cov-report html --cov-report term-missing test"
+pythonpath = [
+    "src",
+]
