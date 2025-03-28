@@ -18,8 +18,8 @@ def bytes_to_image(b: bytes, _format: str | None = None) -> Image:
     )
 
 
-def image_to_base64_str(image: Image) -> str:
-    return b64encode(image_to_bytes(image)).decode()
+def image_to_base64_str(image: Image, _format: str = "PNG") -> str:
+    return b64encode(image_to_bytes(image, _format)).decode()
 
 
 def base64_str_to_image(s: str) -> Image:
