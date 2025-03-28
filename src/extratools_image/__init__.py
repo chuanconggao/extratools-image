@@ -22,5 +22,13 @@ def image_to_base64_str(image: Image, _format: str = "PNG") -> str:
     return b64encode(image_to_bytes(image, _format)).decode()
 
 
+def image_to_data_url(image: Image, _format: str = "PNG") -> str:
+    """
+    Following https://developer.mozilla.org/en-US/docs/Web/URI/Reference/Schemes/data
+    """
+
+    return f"data:image/{_format.lower()};base64,{image_to_base64_str(image)}"
+
+
 def base64_str_to_image(s: str) -> Image:
     return open_image(b64decode(s.encode()))
