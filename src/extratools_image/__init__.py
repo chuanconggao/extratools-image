@@ -1,8 +1,58 @@
+import asyncio
 from base64 import b64decode, b64encode
+from http import HTTPStatus
 from io import BytesIO
 
+import backoff
+import httpx
 from PIL.Image import Image
 from PIL.Image import open as open_image
+
+MAX_TRIES: int = 3
+MAX_TIMEOUT: int = 60
+REQUEST_TIMEOUT: int = 30
+
+
+@backoff.on_predicate(
+    backoff.expo,
+    max_tries=MAX_TRIES,
+    max_time=MAX_TIMEOUT,
+)
+async def download_image_async(
+    image_url: str,
+    *,
+    user_agent: str | None = None,
+) -> Image | None:
+    async with httpx.AsyncClient().stream(
+        "GET",
+        image_url,
+        follow_redirects=True,
+        timeout=REQUEST_TIMEOUT,
+        headers=(
+            {
+                "User-Agent": user_agent,
+            } if user_agent
+            else {}
+        ),
+    ) as response:
+        if response.status_code == HTTPStatus.TOO_MANY_REQUESTS:
+            # It also triggers backoff if necessary
+            return None
+
+        response.raise_for_status()
+
+        return bytes_to_image(await response.aread())
+
+
+def download_image(
+    image_url: str,
+    *,
+    user_agent: str | None = None,
+) -> Image | None:
+    return asyncio.run(download_image_async(
+        image_url,
+        user_agent=user_agent,
+    ))
 
 
 def image_to_bytes(image: Image, _format: str = "PNG") -> bytes:

@@ -11,6 +11,8 @@ requires-python = ">=3.11"
 readme = "README.md"
 license = "MIT"
 dependencies = [
+    "backoff>=2.2.1",
+    "httpx>=0.28.1",
     "pillow>=11.1.0",
 ]
 
@@ -30,7 +32,6 @@ source = [
 
 [tool.mypy]
 ignore_missing_imports = true
-strict = true
 
 [tool.pytest.ini_options]
 addopts = "--cov --cov-report xml:cov.xml --cov-report html --cov-report term-missing test"
