@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import asyncio
 from base64 import b64decode, b64encode
+from enum import Enum
 from http import HTTPStatus
 from io import BytesIO
 
@@ -82,3 +85,24 @@ def image_to_data_url(image: Image, _format: str = "PNG") -> str:
 
 def base64_str_to_image(s: str) -> Image:
     return open_image(b64decode(s.encode()))
+
+
+class CommonSize(Enum):
+    """
+    https://en.wikipedia.org/wiki/Display_resolution_standards
+    """
+
+    # 4:3
+    VGA = (640, 480)
+    SVGA = (800, 600)
+    XGA = (1024, 768)
+    SXGA = (1280, 1024)
+
+    # 16:9
+    _720p = HD = (1280, 720)
+    _2K = _1080p = FULL_HD = (1920, 1080)
+    _3K = (2880, 1620)
+    _4K = (3840, 2160)
+    _5K = (5120, 2880)
+    _8K = (7680, 4320)
+    _16K = (15360, 8640)
