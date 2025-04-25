@@ -99,6 +99,7 @@ class CommonSize(Enum):
     SXGA = (1280, 1024)
 
     # 16:9
+    _480p = SD = (854, 480)
     _720p = HD = (1280, 720)
     _2K = _1080p = FULL_HD = (1920, 1080)
     _3K = (2880, 1620)
@@ -106,3 +107,7 @@ class CommonSize(Enum):
     _5K = (5120, 2880)
     _8K = (7680, 4320)
     _16K = (15360, 8640)
+
+    def __repr__(self) -> str:
+        x, y = self.value
+        return f"{self.name.rstrip('_').replace('_', '')} ({x}x{y})"
