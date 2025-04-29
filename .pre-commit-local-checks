@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-. .envrc
+. .venv/bin/activate
 
 mypy --install-types src
 
