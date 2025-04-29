@@ -8,8 +8,11 @@ from io import BytesIO
 
 import backoff
 import httpx
+import truststore
 from PIL.Image import Image
 from PIL.Image import open as open_image
+
+truststore.inject_into_ssl()
 
 MAX_TRIES: int = 3
 MAX_TIMEOUT: int = 60
